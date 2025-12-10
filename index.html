@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Library</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="slideshow">
+    <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f');"></div>
+    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f');"></div>
+    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba');"></div>
+    <div class="overlay"></div>
+  </div>
+
+  <header>
+    <h1>📚 Smart Library</h1>
+    <p>Find your next great read instantly</p>
+  </header>
+
+  <main>
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search for a book..." />
+      <button onclick="searchBook()">Search</button>
+    </div>
+
+    <div id="bookResult" class="book-result">
+      <!-- Book results appear here -->
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 Smart Library | All Rights Reserved</p>
+  </footer>
+
+  <script>
+    // Background slideshow
+    let current = 0;
+    const slides = document.querySelectorAll('.slide');
+    setInterval(() => {
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }, 5000);
+
+    // Simulated smart search
+    const books = {
+      "harry potter": "Harry Potter by J.K. Rowling",
+      "think and grow rich": "Think and Grow Rich by Napoleon Hill",
+      "atomic habits": "Atomic Habits by James Clear",
+      "the alchemist": "The Alchemist by Paulo Coelho",
+      "rich dad poor dad": "Rich Dad Poor Dad by Robert Kiyosaki"
+    };
+
+    function searchBook() {
+      const query = document.getElementById("searchInput").value.toLowerCase().trim();
+      const resultDiv = document.getElementById("bookResult");
+
+      if (query in books) {
+        resultDiv.innerHTML = `<h2>📘 ${books[query]}</h2><p>Your book is available in our digital library!</p>`;
+      } else {
+        resultDiv.innerHTML = `<h2>❌ Book Not Found</h2><p>But don’t worry! Our AI will add it soon 😉</p>`;
+      }
+    }
+  </script>
+</body>
+</html>
