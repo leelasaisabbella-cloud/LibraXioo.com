@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Library</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="overlay"></div>
+
+  <header>
+    <h1>📚 Smart Library</h1>
+    <p>Find any book instantly — powered by Google Books</p>
+  </header>
+
+  <main>
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search for any book...">
+      <button onclick="searchBook()">Search</button>
+    </div>
+
+    <div id="bookResult" class="book-result"></div>
+  </main>
+
+  <script>
+    async function searchBook() {
+      const query = document.getElementById("searchInput").value.trim();
+      const resultDiv = document.getElementById("bookResult");
+
+      if (!query) {
+        resultDiv.innerHTML = "<p>Please type a book name.</p>";
+        return;
+      }
+
+      const url = `https://www.googleapis.com/books/v1/volumes?q=${query}`;
+
+      resultDiv.innerHTML = "<p>Searching...</p>";
+
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (!data.items || data.items.length === 0) {
+        resultDiv.innerHTML = "<h2>❌ Book Not Found</h2>";
+        return;
+      }
+
+      const book = data.items[0].volumeInfo;
+
+      resultDiv.innerHTML = `
+        <h2>📘 ${book.title}</h2>
+        <p><strong>Author:</strong> ${book.authors ? book.authors.join(", ") : "Unknown"}</p>
+        <img src="${book.imageLinks?.thumbnail}" alt="Book cover">
+        <p>${book.description ? book.description.substring(0, 300) + "..." : "No description available"}</p>
+      `;
+    }
+  </script
